@@ -1,0 +1,8 @@
+# GitHub Pages / Jekyll: exclude files that break the build or aren't needed on the site.
+# Public CTF page: evil.html only.
+exclude:
+  - HW2_Writeup.md
+  - Guideline.md
+  - md_to_docx.py
+  - "*.pdf"
+  - "*.docx"
