@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "HW2 Q1.2 Content Script (Chrome→Firefox)",
+  "version": "1.0",
+  "description": "14-828 HW2 — Q1.1 + jQuery content script on developer.chrome.com/docs/extensions/",
+  "action": {
+    "default_title": "Hello",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://developer.chrome.com/docs/extensions/*"],
+      "js": ["jquery.min.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["firefox-logo.svg"],
+      "matches": ["https://developer.chrome.com/*"]
+    }
+  ]
+}

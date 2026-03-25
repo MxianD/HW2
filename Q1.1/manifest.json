@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "HW2 Q1.1 Hello World",
+  "version": "1.0",
+  "description": "14-828 HW2 — browser action popup with name greeting",
+  "action": {
+    "default_title": "Hello",
+    "default_popup": "popup.html"
+  }
+}

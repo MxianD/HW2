@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Q1.4 Report URL</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        padding: 16px;
+        max-width: 480px;
+      }
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.9rem;
+      }
+      input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+      }
+      button {
+        margin-top: 12px;
+        padding: 8px 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="reportUrl">POST endpoint for JSON reports</label>
+    <input type="url" id="reportUrl" placeholder="http://127.0.0.1:3847/report" />
+    <button type="button" id="save">Save</button>
+    <p id="msg" style="font-size:0.85rem;color:#444"></p>
+    <script src="options.js"></script>
+  </body>
+</html>

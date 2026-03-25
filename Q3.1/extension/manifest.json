@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "HW2 Q3.1 URL Logger (course exercise)",
+  "version": "1.0",
+  "description": "Educational extension: logs main-frame navigation URLs to a local server.",
+  "permissions": ["webNavigation"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

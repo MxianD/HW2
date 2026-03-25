@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-label="Firefox">
+  <defs>
+    <linearGradient id="fx" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffbd4f"/>
+      <stop offset="100%" style="stop-color:#ff7139"/>
+    </linearGradient>
+  </defs>
+  <rect width="80" height="80" rx="14" fill="url(#fx)"/>
+  <circle cx="40" cy="42" r="18" fill="#fff" opacity="0.95"/>
+</svg>

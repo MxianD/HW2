@@ -1,0 +1,10 @@
+{
+  "name": "hw2-q31-exfil-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Receives browsing events from Q3.1 extension and appends to visits.csv",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

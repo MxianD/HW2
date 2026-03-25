@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "HW2 Q1.4 Background Reporter",
+  "version": "1.0",
+  "description": "14-828 HW2 — reports public IP every minute (MV3 service worker; geolocation unavailable in SW)",
+  "permissions": ["alarms", "storage"],
+  "host_permissions": [
+    "https://api.ipify.org/*",
+    "http://127.0.0.1/*",
+    "http://localhost/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  }
+}

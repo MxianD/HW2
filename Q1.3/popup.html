@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello / Replace</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="card">
+      <h1 class="title">Greeting</h1>
+      <label class="label" for="name">Your name</label>
+      <input class="input" type="text" id="name" name="name" autocomplete="name" placeholder="Type your name" />
+      <p class="greeting" id="greeting" aria-live="polite"></p>
+
+      <hr class="sep" />
+
+      <h2 class="subtitle">Page replace</h2>
+      <p class="hint">Active tab must be on <code>developer.chrome.com/docs/extensions/</code></p>
+      <label class="label" for="match">Match text</label>
+      <input class="input" type="text" id="match" placeholder="e.g. API" />
+      <label class="label" for="replaceWith">Replace with</label>
+      <input class="input" type="text" id="replaceWith" placeholder="Replacement" />
+      <button type="button" class="btn" id="applyReplace">Apply on page</button>
+      <p class="status" id="status" aria-live="polite"></p>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

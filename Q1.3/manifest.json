@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "HW2 Q1.3 Match/Replace Messaging",
+  "version": "1.0",
+  "description": "14-828 HW2 — Q1.1/Q1.2 + popup-driven find/replace via messaging",
+  "action": {
+    "default_title": "Hello / Replace",
+    "default_popup": "popup.html"
+  },
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["https://developer.chrome.com/docs/extensions/*"],
+      "js": ["jquery.min.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["firefox-logo.svg"],
+      "matches": ["https://developer.chrome.com/*"]
+    }
+  ]
+}
